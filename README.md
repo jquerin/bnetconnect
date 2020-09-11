@@ -1,1 +1,1 @@
-# battle_net_connect
+# bnetconnect
