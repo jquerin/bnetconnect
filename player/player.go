@@ -1,6 +1,6 @@
 package player
 
-type player struct {
-	playerName      string
-	playerRealmname string
+type Player struct {
+	PlayerName      string
+	PlayerRealmname string
 }
