@@ -1,7 +1,8 @@
 package blizzardclient
 
 import (
-	cp "bnetconnect/characterProfile"
+	ceq "bnetconnect/characterequipment"
+	cp "bnetconnect/characterprofile"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -11,8 +12,9 @@ import (
 
 // BnetClient represents blizzard client api
 type BnetClient struct {
-	Client           *http.Client
-	CharacterProfile cp.Characterprofile
+	Client             *http.Client
+	CharacterProfile   cp.CharacterProfile
+	CharacterEquipment ceq.CharacterEquipment
 }
 
 // CreateClient creates http client to send out requests
@@ -33,7 +35,19 @@ func (b *BnetClient) GenerateCharacterProfile(name string, realm string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	profile := cp.Characterprofile{}
+	profile := cp.CharacterProfile{}
 	err = json.NewDecoder(resp.Body).Decode(&profile)
 	b.CharacterProfile = profile
+}
+
+// GenerateCharacterEquipment method requests characterEquipment api
+func (b *BnetClient) GenerateCharacterEquipment(name string, realm string) {
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/equipment?namespace=profile-us&locale=en_US", realm, name)
+	resp, err := b.Client.Get(requestOut)
+	if err != nil {
+		fmt.Println(err)
+	}
+	equipment := ceq.CharacterEquipment{}
+	err = json.NewDecoder(resp.Body).Decode(&equipment)
+	b.CharacterEquipment = equipment
 }
