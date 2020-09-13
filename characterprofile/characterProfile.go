@@ -1,6 +1,6 @@
-package characterProfile
+package characterprofile
 
-type Characterprofile struct {
+type CharacterProfile struct {
 	Links struct {
 		Self struct {
 			Href string `json:"href"`
