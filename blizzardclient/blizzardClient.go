@@ -1,13 +1,13 @@
 package blizzardclient
 
 import (
-	ceq "bnetconnect/characterequipment"
-	cp "bnetconnect/characterprofile"
-	pvp "bnetconnect/characterpvp"
-	pvps "bnetconnect/characterpvpsummary"
 	"context"
 	"encoding/json"
 	"fmt"
+	cp "github.com/mrgreenturtle/bnetconnect//characterprofile"
+	ceq "github.com/mrgreenturtle/bnetconnect/characterequipment"
+	pvp "github.com/mrgreenturtle/bnetconnect/characterpvp"
+	pvps "github.com/mrgreenturtle/bnetconnect/characterpvpsummary"
 	"golang.org/x/oauth2/clientcredentials"
 	"net/http"
 )
