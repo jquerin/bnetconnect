@@ -13,5 +13,5 @@ func main() {
 
 	battletNetConnection := localnet.BnetClient{Client: bnet.CreateClient(os.Getenv("CLIENTID"), os.Getenv("CLIENTSECRET"), tokenURL)}
 	profile := battletNetConnection.GenerateCharacterStats("smilebomb", "kiljaeden")
-	fmt.Printf("%v", profile)
+	fmt.Printf("%+v", profile)
 }
