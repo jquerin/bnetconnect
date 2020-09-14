@@ -4,16 +4,18 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
+
 	ceq "github.com/mrgreenturtle/bnetconnect/characterequipment"
 	cm "github.com/mrgreenturtle/bnetconnect/charactermedia"
 	cp "github.com/mrgreenturtle/bnetconnect/characterprofile"
 	pvp "github.com/mrgreenturtle/bnetconnect/characterpvp"
 	pvps "github.com/mrgreenturtle/bnetconnect/characterpvpsummary"
+	creps "github.com/mrgreenturtle/bnetconnect/characterreputations"
 	cs "github.com/mrgreenturtle/bnetconnect/characterspecialization"
 	cstats "github.com/mrgreenturtle/bnetconnect/characterstats"
 	ctits "github.com/mrgreenturtle/bnetconnect/charactertitles"
 	"golang.org/x/oauth2/clientcredentials"
-	"net/http"
 )
 
 // BnetClient represents blizzard client api
@@ -42,6 +44,18 @@ func (b *BnetClient) GenerateCharacterProfile(name string, realm string) cp.Char
 	profile := cp.CharacterProfile{}
 	err = json.NewDecoder(resp.Body).Decode(&profile)
 	return profile
+}
+
+// GenerateCharacterReputations method requests characterReputations api
+func (b *BnetClient) GenerateCharacterReputations(name string, realm string) creps.CharacterReputations {
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/reputations?namespace=profile-us&locale=en_US", realm, name)
+	resp, err := b.Client.Get(requestOut)
+	if err != nil {
+		fmt.Println(err)
+	}
+	reputations := creps.CharacterReputations{}
+	err = json.NewDecoder(resp.Body).Decode(&reputations)
+	return reputations
 }
 
 // GenerateCharacterTitles method requests characterTitles api
