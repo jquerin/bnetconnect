@@ -11,6 +11,7 @@ import (
 	pvps "github.com/mrgreenturtle/bnetconnect/characterpvpsummary"
 	cs "github.com/mrgreenturtle/bnetconnect/characterspecialization"
 	cstats "github.com/mrgreenturtle/bnetconnect/characterstats"
+	ctits "github.com/mrgreenturtle/bnetconnect/charactertitles"
 	"golang.org/x/oauth2/clientcredentials"
 	"net/http"
 )
@@ -41,6 +42,21 @@ func (b *BnetClient) GenerateCharacterProfile(name string, realm string) cp.Char
 	profile := cp.CharacterProfile{}
 	err = json.NewDecoder(resp.Body).Decode(&profile)
 	return profile
+}
+
+// GenerateCharacterTitles method requests characterTitles api
+func (b *BnetClient) GenerateCharacterTitles(name string, realm string) ctits.CharacterTitles {
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/titles?namespace=profile-us&locale=en_US", realm, name)
+	resp, err := b.Client.Get(requestOut)
+	if err != nil {
+		fmt.Println(err)
+	}
+	titles := ctits.CharacterTitles{}
+	err = json.NewDecoder(resp.Body).Decode(&titles)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return titles
 }
 
 // GenerateCharacterMedia method requests characterMedia api
