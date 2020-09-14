@@ -45,7 +45,7 @@ func (b *BnetClient) GenerateCharacterProfile(name string, realm string) cp.Char
 
 // GenerateCharacterMedia method requests characterMedia api
 func (b *BnetClient) GenerateCharacterMedia(name string, realm string) cm.CharacterMedia {
-	requestOut := fmt.Sprintf("https://us.api.blizzard.com/specialization/wow/character/%s/%s?namespace=profile-us&locale=en_US", realm, name)
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/character-media?namespace=profile-us&locale=en_US", realm, name)
 	resp, err := b.Client.Get(requestOut)
 	if err != nil {
 		fmt.Println(err)
@@ -57,7 +57,7 @@ func (b *BnetClient) GenerateCharacterMedia(name string, realm string) cm.Charac
 
 // GenerateCharacterSpecialization method requests characterSpecialization api
 func (b *BnetClient) GenerateCharacterSpecialization(name string, realm string) cs.CharacterSpecialization {
-	requestOut := fmt.Sprintf("https://us.api.blizzard.com/specialization/wow/character/%s/%s?namespace=profile-us&locale=en_US", realm, name)
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/specializations?namespace=profile-us&locale=en_US", realm, name)
 	resp, err := b.Client.Get(requestOut)
 	if err != nil {
 		fmt.Println(err)
@@ -69,7 +69,7 @@ func (b *BnetClient) GenerateCharacterSpecialization(name string, realm string) 
 
 // GenerateCharacterStats method requests characterStats api
 func (b *BnetClient) GenerateCharacterStats(name string, realm string) cstats.CharacterStats {
-	requestOut := fmt.Sprintf("https://us.api.blizzard.com/specialization/wow/character/%s/%s?namespace=profile-us&locale=en_US", realm, name)
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/statistics?namespace=profile-us&locale=en_US", realm, name)
 	resp, err := b.Client.Get(requestOut)
 	if err != nil {
 		fmt.Println(err)
