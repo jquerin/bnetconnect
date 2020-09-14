@@ -43,6 +43,42 @@ func (b *BnetClient) GenerateCharacterProfile(name string, realm string) cp.Char
 	return profile
 }
 
+// GenerateCharacterMedia method requests characterMedia api
+func (b *BnetClient) GenerateCharacterMedia(name string, realm string) cm.CharacterMedia {
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/specialization/wow/character/%s/%s?namespace=profile-us&locale=en_US", realm, name)
+	resp, err := b.Client.Get(requestOut)
+	if err != nil {
+		fmt.Println(err)
+	}
+	media := cm.CharacterMedia{}
+	err = json.NewDecoder(resp.Body).Decode(&media)
+	return media
+}
+
+// GenerateCharacterSpecialization method requests characterSpecialization api
+func (b *BnetClient) GenerateCharacterSpecialization(name string, realm string) cs.CharacterSpecialization {
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/specialization/wow/character/%s/%s?namespace=profile-us&locale=en_US", realm, name)
+	resp, err := b.Client.Get(requestOut)
+	if err != nil {
+		fmt.Println(err)
+	}
+	specialization := cs.CharacterSpecialization{}
+	err = json.NewDecoder(resp.Body).Decode(&specialization)
+	return specialization
+}
+
+// GenerateCharacterStats method requests characterStats api
+func (b *BnetClient) GenerateCharacterStats(name string, realm string) cstats.CharacterStats {
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/specialization/wow/character/%s/%s?namespace=profile-us&locale=en_US", realm, name)
+	resp, err := b.Client.Get(requestOut)
+	if err != nil {
+		fmt.Println(err)
+	}
+	stats := cstats.CharacterStats{}
+	err = json.NewDecoder(resp.Body).Decode(&stats)
+	return stats
+}
+
 // GenerateCharacterEquipment method requests characterEquipment api
 func (b *BnetClient) GenerateCharacterEquipment(name string, realm string) ceq.CharacterEquipment {
 	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/equipment?namespace=profile-us&locale=en_US", realm, name)
@@ -55,6 +91,7 @@ func (b *BnetClient) GenerateCharacterEquipment(name string, realm string) ceq.C
 	return equipment
 }
 
+// GeneratePvP method requests PvP Api giving back arena values
 func (b *BnetClient) GeneratePvP(name string, realm string) [2]pvp.CharacterPvp {
 	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/pvp-bracket/3v3?namespace=profile-us&locale=en_US", realm, name)
 	resp, err := b.Client.Get(requestOut)
@@ -78,6 +115,7 @@ func (b *BnetClient) GeneratePvP(name string, realm string) [2]pvp.CharacterPvp 
 	return returnPvp
 }
 
+// GeneratePvpSummary method requests PvPSummary Api
 func (b *BnetClient) GeneratePvpSummary(name string, realm string) pvps.CharacterPvpSummary {
 	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/pvp-summary?namespace=profile-us&locale=en_US", realm, name)
 	resp, err := b.Client.Get(requestOut)
