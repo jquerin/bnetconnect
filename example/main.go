@@ -3,11 +3,14 @@ package main
 import (
 	"fmt"
 	bnet "github.com/mrgreenturtle/bnetconnect/blizzardclient"
+	"os"
 )
+
+const tokenURL = "https://us.battle.net/oauth/token"
 
 func main() {
 
-	battletNetConnection := bnet.BnetClient{Client: bnet.CreateClient("a01c6ce324f8471f8996007eb0e352ca", "dhsvifXwB09ESsDAN0wsnhwbD3tC2zKg", "https://us.battle.net/oauth/token")}
-	profile := battletNetConnection.GenerateCharacterProfile("smilebomb", "kiljaeden")
+	battletNetConnection := bnet.BnetClient{Client: bnet.CreateClient(os.Getenv("CLIENTID"), os.Getenv("CLIENTSECRET"), tokenURL)}
+	profile := battletNetConnection.GeneratePvP("smilebomb", "kiljaeden")
 	fmt.Printf("%v", profile)
 }

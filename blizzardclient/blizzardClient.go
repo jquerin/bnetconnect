@@ -5,9 +5,12 @@ import (
 	"encoding/json"
 	"fmt"
 	ceq "github.com/mrgreenturtle/bnetconnect/characterequipment"
+	cm "github.com/mrgreenturtle/bnetconnect/charactermedia"
 	cp "github.com/mrgreenturtle/bnetconnect/characterprofile"
 	pvp "github.com/mrgreenturtle/bnetconnect/characterpvp"
 	pvps "github.com/mrgreenturtle/bnetconnect/characterpvpsummary"
+	cs "github.com/mrgreenturtle/bnetconnect/characterspecialization"
+	cstats "github.com/mrgreenturtle/bnetconnect/characterstats"
 	"golang.org/x/oauth2/clientcredentials"
 	"net/http"
 )
