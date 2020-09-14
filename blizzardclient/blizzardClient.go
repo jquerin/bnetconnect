@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	arena "github.com/mrgreenturtle/bnetconnect/arenaleaderboard"
 	ceq "github.com/mrgreenturtle/bnetconnect/characterequipment"
 	cm "github.com/mrgreenturtle/bnetconnect/charactermedia"
 	cp "github.com/mrgreenturtle/bnetconnect/characterprofile"
@@ -32,6 +33,18 @@ func CreateClient(clientID string, clientSecret string, tokenURL string) *http.C
 	}
 	client := conf.Client(context.Background())
 	return client
+}
+
+// GenerateArenaLeaderBoard method requests pvpLeader api
+func (b *BnetClient) GenerateArenaLeaderBoard(seasonID int, bracket string) arena.ArenaLeaderBoard {
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/data/wow/pvp-season/%d/pvp-leaderboard/%s?namespace=dynamic-us&locale=en_US", seasonID, bracket)
+	resp, err := b.Client.Get(requestOut)
+	if err != nil {
+		fmt.Println(err)
+	}
+	arenaBoard := arena.ArenaLeaderBoard{}
+	err = json.NewDecoder(resp.Body).Decode(&arenaBoard)
+	return arenaBoard
 }
 
 // GenerateCharacterProfile method requests characterProfile api
@@ -122,27 +135,17 @@ func (b *BnetClient) GenerateCharacterEquipment(name string, realm string) ceq.C
 }
 
 // GeneratePvP method requests PvP Api giving back arena values
-func (b *BnetClient) GeneratePvP(name string, realm string) [2]pvp.CharacterPvp {
-	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/pvp-bracket/3v3?namespace=profile-us&locale=en_US", realm, name)
+func (b *BnetClient) GeneratePvP(name string, realm string, bracket string) pvp.CharacterPvp {
+	requestOut := fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/pvp-bracket/%s?namespace=profile-us&locale=en_US", realm, name, bracket)
 	resp, err := b.Client.Get(requestOut)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	returnPvp := [2]pvp.CharacterPvp{}
-	arena3v3 := pvp.CharacterPvp{}
-	err = json.NewDecoder(resp.Body).Decode(&arena3v3)
-	returnPvp[1] = arena3v3
+	arena := pvp.CharacterPvp{}
+	err = json.NewDecoder(resp.Body).Decode(&arena)
 
-	requestOut = fmt.Sprintf("https://us.api.blizzard.com/profile/wow/character/%s/%s/pvp-bracket/2v2?namespace=profile-us&locale=en_US", realm, name)
-	resp, err = b.Client.Get(requestOut)
-	if err != nil {
-		fmt.Println(err)
-	}
-	arena2v2 := pvp.CharacterPvp{}
-	err = json.NewDecoder(resp.Body).Decode(&arena2v2)
-	returnPvp[0] = arena2v2
-	return returnPvp
+	return arena
 }
 
 // GeneratePvpSummary method requests PvPSummary Api
